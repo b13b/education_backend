@@ -1,22 +1,27 @@
 const express = require('express');
+const userSchema = require('../model/userModel');
 const bodyParser = require('body-parser');
-const usersSchema = require('../model/usermodel');
-
-
 const router = express.Router();
+const mongoose = require('mongoose');
+const bcrypt= require('bcrypt');
+const saltRounds = 10;
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: false}));
-const mongoose = require('mongoose');
 
-
-mongoose.connect('mongodb+srv://bhumica:bYXT7pYBR8Qx5HcA@bhumica-ryhdp.mongodb.net/test?retryWrites=true/SITHotel');
+mongoose.connect('mongodb://localhost/Courses');
 
 router.post('/signup',(req,res,next) =>{
-    var users=new courseSchema(req.body)
+    var hash=bcrypt.hashSync(req.body["password"],saltRounds);
+    var userJson={
+        name:req.body.name,
+        email:req.body.email,
+        password:hash,
+        // confirmpassword:hash
+    }
+    var users=new userSchema(userJson)
     users.save(function(err,result){
-        console.log(result);
-
+        console.log('result');
         if(err){
             res.status(500).json(err);
         }else{
@@ -24,37 +29,39 @@ router.post('/signup',(req,res,next) =>{
                 status:"success",
                 data:result
             })
+            
         }
     })
 })
-router.post('/login',(req,res,next) => {
 
-    usersSchema.findOne({loginID:req.body.loginID},function(err,result){
+router.post('/login',(req,res,next) =>{
+    console.log("Entered Login::",req.body);
+    userSchema.findOne({name:req.body.name},function(err,result){
+        console.log('result');
         if(err){
             res.status(500).json(err);
-
-        }else{
-            if(req.body.password == result["password"]){
+        }else if(result!=null){
+            // if(req.body.password == result["password"]){
+            console.log(bcrypt.compareSync(req.body.password,result["password"]));
+            if(bcrypt.compareSync(req.body["password"],result["password"])){
                 res.status(200).json({
                     status:"success",
                     data:result
                 })
-
-            }else{
-
+            }else {
                 res.status(200).json({
                     status:"failure",
                     data:null
                 })
-
             }
         }
-        
-
     })
-
-});
-router.get('/',(req,res,next)=>{
-    res.status(200).json("auth");
 })
-module.exports = router;
+
+router.get('/',(req,res,next)=>{
+    res.status(200).json({
+        name:"Bhumica"
+    })
+})
+
+module.exports =router;

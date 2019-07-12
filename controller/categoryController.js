@@ -9,8 +9,9 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: false}));
 
 router.post('/createCategory',(req,res,next) => {
-    var newCourse = new categorySchema(req.body);
-    newCourse.save(function(err,rows){
+    console.log(req.body)
+    var newCategory = new categorySchema(req.body);
+    newCategory.save(function(err,rows){
         if(err){
             res.status(500).json({
                 err:err
@@ -25,3 +26,4 @@ router.post('/createCategory',(req,res,next) => {
 
     })
 });
+module.exports=router;

@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/auth',authController);
-app.use('/course',courseController);
+app.use('/courses',courseController);
 app.use('/category',categoryController);
 app.get('/',(req,res,next )=>{
     res.status(200).json("Hi there!");

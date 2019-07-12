@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 
-const courseSchema = mongoose.Schema({
+const categorySchema = mongoose.Schema({
     category:{type:String,required:true},
 });
 
-module.exports=mongoose.model("course",courseSchema);
+module.exports=mongoose.model("category",categorySchema);
