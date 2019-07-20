@@ -1,4 +1,3 @@
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
@@ -6,6 +5,8 @@ const app = express();
 const authController=require('../controller/authController');
 const courseController=require('../controller/courseController');
 const categoryController=require('../controller/categoryController');
+const cartController=require('../controller/cartController');
+const paymentController=require('../controller/paymentController');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,11 +25,12 @@ app.use((req, res, next) => {
 });
 
 app.use('/auth',authController);
-app.use('/courses',courseController);
+app.use('/course',courseController);
 app.use('/category',categoryController);
+app.use('/cart',cartController);
+app.use('/payment',paymentController);
 app.get('/',(req,res,next )=>{
     res.status(200).json("Hi there!");
   })
   
-  
-  module.exports = app;
+module.exports = app;

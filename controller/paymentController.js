@@ -1,15 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const courseSchema = require('../model/courseModel');
+const paymentSchema = require('../model/paymentModel');
 const router = express.Router();
 //const mongoose = require('mongoose');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.post('/createCourse',(req,res,next) => {
-    var newCourse = new courseSchema(req.body);
-    newCourse.save(function(err,rows){
+router.post('/makePayment',(req,res,next) => {
+    var newPayment = new paymentSchema(req.body);
+    newPayment.save(function(err,payment){
         console.log(err);
         if(err){
             res.status(500).json({
@@ -18,14 +18,14 @@ router.post('/createCourse',(req,res,next) => {
         }else{
             res.status(200).json({
                 status:"success",
-                data:rows
+                data:payment
             })
         }
     })
 })
 
 router.get('/',(req,res,next) =>{
-    courseSchema.find(function(err,rows){
+    paymentSchema.find(function(err,payment){
 
         if(err){
             res.status(500).json({
@@ -35,7 +35,7 @@ router.get('/',(req,res,next) =>{
             res.status(200).json({
 
                 status:"success",
-                data: rows
+                data:payment
             })
         }
 

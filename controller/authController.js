@@ -3,7 +3,7 @@ const userSchema = require('../model/userModel');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const mongoose = require('mongoose');
-const bcrypt= require('bcrypt');
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 router.use(bodyParser.json());
@@ -17,7 +17,7 @@ router.post('/signup',(req,res,next) =>{
         name:req.body.name,
         email:req.body.email,
         password:hash,
-        // confirmpassword:hash
+        usertype:req.body.usertype
     }
     var users=new userSchema(userJson)
     users.save(function(err,result){
@@ -28,14 +28,13 @@ router.post('/signup',(req,res,next) =>{
             res.status(200).json({
                 status:"success",
                 data:result
-            })
-            
+            })    
         }
     })
 })
 
 router.post('/login',(req,res,next) =>{
-    console.log("Entered Login::",req.body);
+    console.log("Entered Login ::",req.body);
     userSchema.findOne({name:req.body.name},function(err,result){
         console.log('result');
         if(err){
@@ -60,7 +59,7 @@ router.post('/login',(req,res,next) =>{
 
 router.get('/',(req,res,next)=>{
     res.status(200).json({
-        name:"Bhumica"
+        name:"Sneha"
     })
 })
 

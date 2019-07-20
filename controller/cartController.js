@@ -1,15 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const courseSchema = require('../model/courseModel');
+const cartSchema = require('../model/cartModel');
 const router = express.Router();
 //const mongoose = require('mongoose');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: false}));
 
-router.post('/createCourse',(req,res,next) => {
-    var newCourse = new courseSchema(req.body);
-    newCourse.save(function(err,rows){
+router.post('/createCart',(req,res,next) => {
+    var newCart = new cartSchema(req.body);
+    newCart.save(function(err,cart){
         console.log(err);
         if(err){
             res.status(500).json({
@@ -18,14 +18,14 @@ router.post('/createCourse',(req,res,next) => {
         }else{
             res.status(200).json({
                 status:"success",
-                data:rows
+                data:cart
             })
         }
     })
 })
 
 router.get('/',(req,res,next) =>{
-    courseSchema.find(function(err,rows){
+    cartSchema.find(function(err,cart){
 
         if(err){
             res.status(500).json({
@@ -35,7 +35,7 @@ router.get('/',(req,res,next) =>{
             res.status(200).json({
 
                 status:"success",
-                data: rows
+                data: cart
             })
         }
 
